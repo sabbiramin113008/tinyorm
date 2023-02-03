@@ -22,20 +22,30 @@ class Field:
     def __init__(self, name):
         self.name = name
 
+    def cast_type(self, value):
+        if isinstance(value, int):
+            return int(value)
+        if isinstance(value, float):
+            return float(value)
+        if isinstance(value, str):
+            return '\'{}\''.format(value)
+        else:
+            return value
+
     def eq(self, value) -> str:
-        sql = '{}={}'.format(self.name, value)
+        sql = '{}={}'.format(self.name, self.cast_type(value))
         return sql
 
     def lt(self, value) -> str:
-        sql = '{}<{}'.format(self.name, value)
+        sql = '{}<{}'.format(self.name, self.cast_type(value))
         return sql
 
     def gt(self, value) -> str:
-        sql = '{}>{}'.format(self.name, value)
+        sql = '{}>{}'.format(self.name, self.cast_type(value))
         return sql
 
     def find_in(self, values: List) -> str:
-        sql = '{} in {}'.format(self.name, values)
+        sql = '{} in ({})'.format(self.name, ' '.join([str(v) for v in values]))
         return sql
 
     def like(self, value: str) -> str:
@@ -107,15 +117,18 @@ class Database:
 
     def select(self, fields: List[str] = None):
         if not fields or not len(fields):
-            self.sql = '''
-            SELECT * from {};
-            '''.format(self.table_name)
+            self.sql = ''' SELECT * from {} '''.format(self.table_name)
 
         return self
 
-    def where(self, conditions: List = None) -> str:
+    def where(self, conditions: List = None):
         if not conditions or not len(conditions):
             return self
+        pre_sql = self.sql
+        curr_sql = ' '.join([cond for cond in conditions])
+        self.sql = pre_sql + ' WHERE ' + curr_sql
+        print('final sql:', self.sql)
+        return self
 
     def execute(self):
         result = None

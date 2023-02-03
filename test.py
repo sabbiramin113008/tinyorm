@@ -9,7 +9,7 @@ email: sabbir.amin@goava.com, sabbiramin.cse11ruet@gmail.com
 import os
 import unittest
 from dotenv import load_dotenv
-from tinyorm.core import Database
+from tinyorm.core import Database, Field, _AND
 
 load_dotenv()
 
@@ -26,10 +26,10 @@ class TestTinyOrm(unittest.TestCase):
 
     def test_insert(self):
         person = {
-            'name': 'Jahn doe',
+            'name': 'Janine doe',
             'age': 33,
             'address': 'Sylhet',
-            'hobby': 'Comics'
+            'hobby': 'Art'
         }
         row_id = self.db.table(self.table_name).insert(**person)
         print('row-id:', row_id)
@@ -38,8 +38,24 @@ class TestTinyOrm(unittest.TestCase):
         users = self.db.table(self.table_name).select().where().execute()
         print('users:', users)
 
-    def test_get_user_by_age(self):
-        users = self.db.table(self.table_name).where([])
+    def test_get_user_by_age_and_hobby(self):
+        users = self.db.table(self.table_name).select().where([
+            Field('age').eq(33), _AND,
+            Field('hobby').eq('art')
+        ]).execute()
+        print('users:', users)
+
+    def test_get_users_where_age_lt_33(self):
+        users = self.db.table(self.table_name).select().where([
+            Field('age').lt(33)
+        ]).execute()
+        print('users:', users)
+
+    def test_get_users_where_age_is_in_list_30(self):
+        users = self.db.table(self.table_name).select().where([
+            Field('age').find_in([33])
+        ]).execute()
+        print('users:', users)
 
 
 if __name__ == '__main__':
