@@ -45,7 +45,7 @@ class Field:
         return sql
 
     def find_in(self, values: List) -> str:
-        sql = '{} in ({})'.format(self.name, ' '.join([str(v) for v in values]))
+        sql = '{} in ({})'.format(self.name, ','.join([str(self.cast_type(v)) for v in values]))
         return sql
 
     def like(self, value: str) -> str:

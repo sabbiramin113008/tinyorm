@@ -57,6 +57,12 @@ class TestTinyOrm(unittest.TestCase):
         ]).execute()
         print('users:', users)
 
+    def test_get_user_where_address_is_in_dhaka_or_sylhet(self):
+        users = self.db.table(self.table_name).select().where([
+            Field('address').find_in(['Dhaka', 'Khulna'])
+        ]).execute()
+        print('users:', users)
+
 
 if __name__ == '__main__':
     unittest.main()
