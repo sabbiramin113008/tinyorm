@@ -105,12 +105,17 @@ class Database:
             self.conn.close()
             return result
 
-    def query(self):
-        self.sql = '''
-        SELECT * from {};
-        '''.format(self.table_name)
+    def select(self, fields: List[str] = None):
+        if not fields or not len(fields):
+            self.sql = '''
+            SELECT * from {};
+            '''.format(self.table_name)
 
         return self
+
+    def where(self, conditions: List = None) -> str:
+        if not conditions or not len(conditions):
+            return self
 
     def execute(self):
         result = None

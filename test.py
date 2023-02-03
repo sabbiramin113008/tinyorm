@@ -35,11 +35,11 @@ class TestTinyOrm(unittest.TestCase):
         print('row-id:', row_id)
 
     def test_get_users(self):
-        users = self.db.table(self.table_name).query().execute()
+        users = self.db.table(self.table_name).select().where().execute()
         print('users:', users)
 
     def test_get_user_by_age(self):
-        users = self.db.table(self.table_name).query().where([])
+        users = self.db.table(self.table_name).where([])
 
 
 if __name__ == '__main__':
