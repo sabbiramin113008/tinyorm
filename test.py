@@ -26,13 +26,20 @@ class TestTinyOrm(unittest.TestCase):
 
     def test_insert(self):
         person = {
-            'name': 'John doe',
-            'age': 30,
-            'address': 'Dhaka',
-            'hobby': 'Art'
+            'name': 'Jahn doe',
+            'age': 33,
+            'address': 'Sylhet',
+            'hobby': 'Comics'
         }
         row_id = self.db.table(self.table_name).insert(**person)
         print('row-id:', row_id)
+
+    def test_get_users(self):
+        users = self.db.table(self.table_name).query().execute()
+        print('users:', users)
+
+    def test_get_user_by_age(self):
+        users = self.db.table(self.table_name).query().where([])
 
 
 if __name__ == '__main__':
