@@ -134,7 +134,6 @@ class Database:
         init_obj = rows[0]
         keys = ','.join(k for k in init_obj.keys())
         place_holder = ','.join(['%s' for _ in init_obj.keys()])
-        # params = ()
         prep_rows = []
         for row in rows:
             entity = ()
