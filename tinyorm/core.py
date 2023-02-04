@@ -65,11 +65,13 @@ class Database:
                  autocommit: bool = True,
                  connect_timeout: int = 5
                  ):
+
         self.sql = None
         self.table_name = None
         self.params = None
         self.SELECT = True
         self.UPDATE = False
+        self.DELETE = False
         try:
             self.conn = pymysql.connect(
                 host=host,
@@ -146,6 +148,11 @@ class Database:
         self.UPDATE = True
         return self
 
+    def delete(self):
+        self.sql = ''' DELETE from {}'''.format(self.table_name)
+        self.DELETE = True
+        return self
+
     def where(self, conditions: List = None):
         if not conditions or not len(conditions):
             return self
@@ -163,6 +170,10 @@ class Database:
             if self.UPDATE:
                 self.conn.commit()
                 result = affected_row_count
+                return result
+            if self.DELETE:
+                self.conn.commit()
+                result = True
                 return result
             result = self.cursor.fetchall()
         except Exception as error:

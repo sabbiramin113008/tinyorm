@@ -66,12 +66,18 @@ class TestTinyOrm(unittest.TestCase):
     def test_update_users_age_to_50_if_address_is_dhaka(self):
         v_set = {
             'age': 40,
-            'hobby':'Nap'
+            'hobby': 'Nap'
         }
         user_count = self.db.table(self.table_name).update(**v_set).where([
             Field('address').eq('Dhaka')
         ]).execute()
         print('Affected Row:', user_count)
+
+    def test_delete_users_where_hobby_eq_art(self):
+        delete_flag = self.db.table(self.table_name).delete().where([
+            Field('hobby').eq('Art')
+        ]).execute()
+        print('Delete-Flag:', delete_flag)
 
     if __name__ == '__main__':
         unittest.main()
