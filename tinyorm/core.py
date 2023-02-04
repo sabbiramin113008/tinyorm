@@ -16,6 +16,7 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 _AND = 'AND'
 _OR = 'OR'
+_NOT = 'NOT'
 
 
 class Field:
