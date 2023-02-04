@@ -68,6 +68,8 @@ class Database:
         self.sql = None
         self.table_name = None
         self.params = None
+        self.SELECT = True
+        self.UPDATE = False
         try:
             self.conn = pymysql.connect(
                 host=host,
@@ -85,6 +87,16 @@ class Database:
             self.LOGGER.error(str(e))
             if self.conn is not None:
                 self.conn.close()
+
+    def cast_type(self, value):
+        if isinstance(value, int):
+            return int(value)
+        if isinstance(value, float):
+            return float(value)
+        if isinstance(value, str):
+            return '\'{}\''.format(value)
+        else:
+            return value
 
     def table(self, table_name: str):
         self.table_name = table_name
@@ -122,6 +134,18 @@ class Database:
 
         return self
 
+    def update(self, **kwargs):
+        set_conditions = []
+        for k, v in kwargs.items():
+            set_condition = '{}={}'.format(k, self.cast_type(v))
+            set_conditions.append(set_condition)
+        set_condition_joiner = ','.join(set_conditions)
+        self.sql = '''
+        UPDATE {} SET {}
+        '''.format(self.table_name, set_condition_joiner)
+        self.UPDATE = True
+        return self
+
     def where(self, conditions: List = None):
         if not conditions or not len(conditions):
             return self
@@ -134,8 +158,12 @@ class Database:
     def execute(self):
         result = None
         try:
-            self.cursor.execute(self.sql, self.params)
+            affected_row_count = self.cursor.execute(self.sql, self.params)
             print('SQL:', self.sql, 'params:', self.params)
+            if self.UPDATE:
+                self.conn.commit()
+                result = affected_row_count
+                return result
             result = self.cursor.fetchall()
         except Exception as error:
             self.LOGGER.error(str(error))

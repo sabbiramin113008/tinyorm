@@ -63,6 +63,15 @@ class TestTinyOrm(unittest.TestCase):
         ]).execute()
         print('users:', users)
 
+    def test_update_users_age_to_50_if_address_is_dhaka(self):
+        v_set = {
+            'age': 40,
+            'hobby':'Nap'
+        }
+        user_count = self.db.table(self.table_name).update(**v_set).where([
+            Field('address').eq('Dhaka')
+        ]).execute()
+        print('Affected Row:', user_count)
 
-if __name__ == '__main__':
-    unittest.main()
+    if __name__ == '__main__':
+        unittest.main()
