@@ -130,6 +130,40 @@ class Database:
             self.conn.close()
             return result
 
+    def insert_many(self, rows: List[dict]):
+        init_obj = rows[0]
+        keys = ','.join(k for k in init_obj.keys())
+        place_holder = ','.join(['%s' for _ in init_obj.keys()])
+        # params = ()
+        prep_rows = []
+        for row in rows:
+            entity = ()
+            for k, v in row.items():
+                entity += (v,)
+            prep_rows.append(entity)
+
+        params = prep_rows
+
+        sql = '''
+                INSERT INTO {} ({}) VALUES({})
+                '''.format(self.table_name, keys, place_holder)
+
+        print('sql:', sql)
+        print('params:', params)
+
+        result = None
+        try:
+            count = self.cursor.executemany(sql, params)
+            self.conn.commit()
+            print('Count: Created:', count)
+            return count
+        except Exception as err:
+            self.LOGGER.error(str(err))
+        finally:
+            self.cursor.close()
+            self.conn.close()
+            return result
+
     def select(self, fields: List[str] = None):
         if not fields or not len(fields):
             self.sql = ''' SELECT * from {} '''.format(self.table_name)

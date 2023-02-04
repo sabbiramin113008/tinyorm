@@ -34,6 +34,23 @@ class TestTinyOrm(unittest.TestCase):
         row_id = self.db.table(self.table_name).insert(**person)
         print('row-id:', row_id)
 
+    def test_insert_many(self):
+        persons = [{
+            'name': 'Jason Mraz',
+            'age': 48,
+            'address': 'Kentucky',
+            'hobby': 'singing'
+        },
+            {
+                'name': 'Adam Levin',
+                'age': 35,
+                'address': 'LA',
+                'hobby': 'singing'
+            }
+        ]
+        count = self.db.table(self.table_name).insert_many(rows=persons)
+        print('recored created:', count)
+
     def test_get_users(self):
         users = self.db.table(self.table_name).select().where().execute()
         print('users:', users)
