@@ -30,18 +30,18 @@ class TestTinyOrm(unittest.TestCase):
     hobbies = ['singing', 'art', ' gaming', 'programming', 'writing', 'sleeping']
 
     def get_name(self):
-        name = '{} {}'.format(random.choices(self.first_name),
-                              random.choices(self.last_name))
+        name = '{} {}'.format(random.choice(self.first_name),
+                              random.choice(self.last_name))
         return name
 
     def get_age(self):
-        return random.choices([i for i in range(25, 60)])
+        return random.choice([i for i in range(25, 60)])
 
     def get_address(self):
-        return random.choices(self.addresses)
+        return random.choice(self.addresses)
 
     def get_hobby(self):
-        return random.choices(self.hobbies)
+        return random.choice(self.hobbies)
 
     def test_insert(self):
         person = {
