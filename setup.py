@@ -17,7 +17,7 @@ long_description = (this_directory / "README.md").read_text()
 
 setup(
     name='lightorm',
-    version='0.0.2',
+    version='0.0.3',
     author='Sabbir Amin',
     author_email='sabbiramin.cse11ruet@gmail.com',
     description='Yet another, super lightweight MySQL ORM in Python.',
