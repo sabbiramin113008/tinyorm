@@ -5,6 +5,8 @@ Yet another, `super` `lightweight` `MySQL` `ORM (Object-Relational Mapping)` in 
 ## 💾 How to Install
 `pip install lightorm`
 
+If you find this project interesting, you can always star it. :D 
+
 ## 🔌 Connecting and Querying
 `LightORM` is designed to reduce the overhead of doing everything and focus on
 doing  things in a very light way. First connect with the database, 
