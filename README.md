@@ -1,11 +1,11 @@
-# LightORM
-It is what the name means. (Experimental) .
-Yet another, super lightweight MySQL ORM in Python. 
+# LightORM 💡🧺🗄️
+It is what the name means. Light yet Do Stuffs (Almost) .
+Yet another, `super` `lightweight` `MySQL` `ORM (Object-Relational Mapping)` in Python.  
 
-## How to Install
+## 💾 How to Install
 `pip install lightorm`
 
-## Connecting and Querying
+## 🔌 Connecting and Querying
 `LightORM` is designed to reduce the overhead of doing everything and focus on
 doing  things in a very light way. First connect with the database, 
 
@@ -29,7 +29,7 @@ db = Database(
 Here, the `database` configs are read from `.env` file. And the db is instantiated.
 
 
-## Insert a Record
+## 💉🗄️ Insert a Record
 Inserting a record is quiet simple. 
 ```python
 person = {
@@ -43,7 +43,7 @@ row_id = db.table(table_name).insert(**person)
 If successful, the `insert(**person)` will return the `row-id`
 
 
-## Insert Multiple Records
+## 🗃️🗄️ Insert Multiple Records
 Inserting multiple record is simply feeding the `insert_many` method with the
 list of the dictionary of the records to be inserted. 
 ```python
@@ -65,7 +65,7 @@ record_inserted = db.table(table_name).insert_many(rows=persons)
 ```
 Upon successful insertion, `insert_many` returns the number of rows inserted. 
 
-## Getting Data Back [SELECT/RETRIEVE]
+## 🗄️🧩 Getting Data Back `(SELECT)`
 For getting all data back, simply
 ```python
 users = db.table(table_name).select().execute()
@@ -78,11 +78,11 @@ Note, there is an extra method `execute`, required for the operation.
 
 
 
-## Filtering
+## 🥣🗄️ Filtering
 `lightorm` is tested with several filtering, and it is simply chaining 
 filtering clauses. Let's see
 
-### Filtering users by `age` and `hobby`
+### 🥣🗄️ Filtering users by `age` and `hobby`
 ```python
 from lightorm import Field,_AND
 
@@ -95,14 +95,14 @@ users = db.table(table_name).select().where([
 ]).execute()
 
 ```
-### Filtering `users` where `age` is less than 33
+### 🥣🗄️ Filtering `users` where `age` is less than 33
 ```python
 users = db.table(table_name).select().where([
     Field('age').lt(35)
 ]).execute()
 print('users:', users)
 ```
-### Filtering users where `adress` is in `['Dhaka','Khulna']
+### 🥣🗄️ Filtering users where `adress` is in `['Dhaka','Khulna']
 ```python
 users = db.table(table_name).select().where([
     Field('address').find_in(['Dhaka', 'Khulna'])
@@ -110,7 +110,7 @@ users = db.table(table_name).select().where([
 print('users:', users)
 ```
 
-## Updating the Records
+## 🚥🗄️ Updating the Records
 `update()` method receivers `key-val` dict for fields to be changed. Simply,
 ```python
 v_set = {
@@ -125,7 +125,7 @@ print('Affected Row:', user_count)
 `v_set` is the `dict` that is the followed by `SET` value in `sql` query. 
 After successful query, it returns rows affected. 
 
-## Deleting Records
+## ✏️🗄️ Deleting Records
 `delete()` works just like the `select()` method. It returns `boolean` `True` if 
 is the query is successfully executed. 
 ```python
@@ -135,7 +135,7 @@ delete_flag = self.db.table(self.table_name).delete().where([
 print('Delete-Flag:', delete_flag)
 ```
 
-### Almost Full Example
+### 📜 Almost Full Example
 ```python
 import os
 import random
@@ -247,7 +247,12 @@ if __name__ == '__main__':
     unittest.main()
 
 ```
-## Upcoming Features
-1. Raw `SQL` execution. 
-2. Adding proper Logging and debugging messages.
-3. Adding `Aggregate Function` function in the ORM. 
+## 🔮 Upcoming Features
+1. Raw `SQL` execution.
+2. Adding Pagination and Sorting
+3. Adding proper Logging and debugging messages.
+4. Adding `Aggregate Function` function in the ORM. 
+
+
+## 🧚 Inspiration
+`Peewee`, `SQLalchemy` `djangoORM` and all the other ORMs out there, making `Developers` life easier. 
