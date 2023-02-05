@@ -9,7 +9,7 @@ email: sabbir.amin@goava.com, sabbiramin.cse11ruet@gmail.com
 import os
 import unittest
 from dotenv import load_dotenv
-from tinyorm.core import Database, Field, _AND
+from lightorm.core import Database, Field, _AND
 
 load_dotenv()
 
@@ -64,11 +64,11 @@ class TestTinyOrm(unittest.TestCase):
 
     def test_get_users_where_age_lt_33(self):
         users = self.db.table(self.table_name).select().where([
-            Field('age').lt(33)
+            Field('age').lt(35)
         ]).execute()
         print('users:', users)
 
-    def test_get_users_where_age_is_in_list_30(self):
+    def test_get_users_where_age_is_in_list_33(self):
         users = self.db.table(self.table_name).select().where([
             Field('age').find_in([33])
         ]).execute()

@@ -10,7 +10,6 @@ from typing import List
 
 import pymysql
 import logging
-import sys
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -154,8 +153,7 @@ class Database:
         try:
             count = self.cursor.executemany(sql, params)
             self.conn.commit()
-            print('Count: Created:', count)
-            return count
+            result = count
         except Exception as err:
             self.LOGGER.error(str(err))
         finally:
@@ -199,7 +197,9 @@ class Database:
         result = None
         try:
             affected_row_count = self.cursor.execute(self.sql, self.params)
-            print('SQL:', self.sql, 'params:', self.params)
+            print('sql:', self.sql)
+            print('params:', self.params)
+
             if self.UPDATE:
                 self.conn.commit()
                 result = affected_row_count

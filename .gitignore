@@ -49,3 +49,5 @@ Thumbs.db
 *.db
 
 /build/
+/tinyorm.egg-info/
+/lightorm.egg-info/
