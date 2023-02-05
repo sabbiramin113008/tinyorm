@@ -7,6 +7,7 @@ email: sabbir.amin@goava.com, sabbiramin.cse11ruet@gmail.com
 
 """
 import os
+import random
 import unittest
 from dotenv import load_dotenv
 from lightorm.core import Database, Field, _AND
@@ -23,31 +24,45 @@ class TestTinyOrm(unittest.TestCase):
         host=os.environ.get('DB_HOST'),
         port=int(os.environ.get('DB_PORT'))
     )
+    first_name = ['John', 'Jane', 'Jason', 'Guido', 'Martin', 'Rob']
+    last_name = ['Doe', 'Dee', 'Mraz', 'Van Russom', 'Fowler', 'Pike']
+    addresses = ['Dhaka', 'LA', 'Kentucky', 'Madrid', 'Khulna', 'Sylhet']
+    hobbies = ['singing', 'art', ' gaming', 'programming', 'writing', 'sleeping']
+
+    def get_name(self):
+        name = '{} {}'.format(random.choices(self.first_name),
+                              random.choices(self.last_name))
+        return name
+
+    def get_age(self):
+        return random.choices([i for i in range(25, 60)])
+
+    def get_address(self):
+        return random.choices(self.addresses)
+
+    def get_hobby(self):
+        return random.choices(self.hobbies)
 
     def test_insert(self):
         person = {
-            'name': 'Janine doe',
-            'age': 33,
-            'address': 'Sylhet',
-            'hobby': 'Art'
+            'name': self.get_name(),
+            'age': self.get_age(),
+            'address': self.get_address(),
+            'hobby': self.get_hobby()
         }
         row_id = self.db.table(self.table_name).insert(**person)
         print('row-id:', row_id)
 
     def test_insert_many(self):
-        persons = [{
-            'name': 'Jason Mraz',
-            'age': 48,
-            'address': 'Kentucky',
-            'hobby': 'singing'
-        },
-            {
-                'name': 'Adam Levin',
-                'age': 35,
-                'address': 'LA',
-                'hobby': 'singing'
+        persons = []
+        for i in range(1, 50):
+            person = {
+                'name': self.get_name(),
+                'age': self.get_age(),
+                'address': self.get_address(),
+                'hobby': self.get_hobby()
             }
-        ]
+            persons.append(person)
         count = self.db.table(self.table_name).insert_many(rows=persons)
         print('recored created:', count)
 
@@ -82,8 +97,8 @@ class TestTinyOrm(unittest.TestCase):
 
     def test_update_users_age_to_50_if_address_is_dhaka(self):
         v_set = {
-            'age': 40,
-            'hobby': 'Nap'
+            'age': 65,
+            'hobby': 'sleeping'
         }
         user_count = self.db.table(self.table_name).update(**v_set).where([
             Field('address').eq('Dhaka')
@@ -92,9 +107,10 @@ class TestTinyOrm(unittest.TestCase):
 
     def test_delete_users_where_hobby_eq_art(self):
         delete_flag = self.db.table(self.table_name).delete().where([
-            Field('hobby').eq('Art')
+            Field('hobby').eq('sleeping')
         ]).execute()
         print('Delete-Flag:', delete_flag)
 
-    if __name__ == '__main__':
-        unittest.main()
+
+if __name__ == '__main__':
+    unittest.main()
