@@ -7,6 +7,13 @@ Yet another, `super` `lightweight` `MySQL` `ORM (Object-Relational Mapping)` in 
 
 If you find this project interesting, you can always star it. :D 
 
+## 📷 A Background for LightORM
+The `Dall-E` prompt was 
+```commandline
+light yagami from death note is writing  code as darth vader yakuza style
+```
+![background](/img/background.png)
+
 ## 🔌 Connecting and Querying
 `LightORM` is designed to reduce the overhead of doing everything and focus on
 doing  things in a very light way. First connect with the database, 
