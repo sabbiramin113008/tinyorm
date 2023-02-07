@@ -265,3 +265,8 @@ if __name__ == '__main__':
 
 ## 🧚 Inspiration
 `Peewee`, `SQLalchemy` `djangoORM` and all the other ORMs out there, making `Developers` life easier. 
+
+## Change logs
+`0.0.6` 
+---
+- Adding `find_not_in()` method. 
