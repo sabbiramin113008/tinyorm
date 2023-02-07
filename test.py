@@ -111,6 +111,12 @@ class TestTinyOrm(unittest.TestCase):
         ]).execute()
         print('Delete-Flag:', delete_flag)
 
+    def test_find_not_in(self):
+        users = self.db.table(self.table_name).select().where([
+            Field('age').find_not_in([49, 39, 28])
+        ]).execute()
+        print('users:', len(users))
+
 
 if __name__ == '__main__':
     unittest.main()

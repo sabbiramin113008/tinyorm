@@ -48,6 +48,10 @@ class Field:
         sql = '{} in ({})'.format(self.name, ','.join([str(self.cast_type(v)) for v in values]))
         return sql
 
+    def find_not_in(self, values: List) -> str:
+        sql = '{} not in ({})'.format(self.name, ','.join([str(self.cast_type(v)) for v in values]))
+        return sql
+
     def like(self, value: str) -> str:
         sql = '{} like {}'.format(self.name, value)
         return sql
