@@ -286,3 +286,7 @@ if __name__ == '__main__':
 `0.0.6` 
 ---
 - Adding `find_not_in()` method. 
+
+`0.0.7` 
+---
+- Adding `paginate()` method. 
