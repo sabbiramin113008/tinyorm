@@ -250,6 +250,22 @@ class TestTinyOrm(unittest.TestCase):
             Field('hobby').eq('sleeping')
         ]).execute()
         print('Delete-Flag:', delete_flag)
+    
+    def test_find_not_in(self):
+        users = self.db.table(self.table_name).select().where([
+            Field('age').find_not_in([49, 39, 28])
+        ]).execute()
+        print('users:', len(users))
+
+    def test_paginated_query(self):
+        size = 10
+        users = self.db.table(self.table_name).select().where(
+            [
+                Field('age').eq(65)
+            ]
+        ).paginate(0, size).execute()
+        print('len(users):', len(users))
+        print('users:', users)
 
 
 if __name__ == '__main__':

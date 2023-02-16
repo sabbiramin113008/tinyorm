@@ -75,6 +75,8 @@ class Database:
         self.SELECT = True
         self.UPDATE = False
         self.DELETE = False
+        self.page = 0
+        self.size = 20
         try:
             self.conn = pymysql.connect(
                 host=host,
@@ -171,6 +173,11 @@ class Database:
 
         return self
 
+    def paginate(self, page: int = 0, size: int = 20):
+        self.page = page if page > 0 else 0
+        self.size = size if size > 0 else 20
+        return self
+
     def update(self, **kwargs):
         set_conditions = []
         for k, v in kwargs.items():
@@ -194,11 +201,13 @@ class Database:
         pre_sql = self.sql
         curr_sql = ' '.join([cond for cond in conditions])
         self.sql = pre_sql + ' WHERE ' + curr_sql
-        print('final sql:', self.sql)
         return self
 
     def execute(self):
         result = None
+        if self.SELECT:
+            limit_query = ' LIMIT {},{} '.format(self.page, self.size)
+            self.sql = self.sql + limit_query
         try:
             affected_row_count = self.cursor.execute(self.sql, self.params)
             print('sql:', self.sql)
